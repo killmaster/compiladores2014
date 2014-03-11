@@ -1,0 +1,10 @@
+.vagrant
+Vagrantfile
+.#Makefile
+*.dSYM
+*.o
+cookbooks/build-essential/
+
+cookbooks/git/
+
+cookbooks/vim/
