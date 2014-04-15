@@ -13,9 +13,11 @@ extern int yylineno;
 %token LE GE NEQ INC DEC
 %token<i> INTEGER INTEGER_L
 
-%nonassoc ifx
-%nonassoc ELSE
+%nonassoc ifx ELSE '(' ')' '[' ']'  EQ NEQ '&' '-'
+%left '*' '/' '%' '+'  LSHIFT RSHIFT  '^' '|'
+%right INC DEC '=' '!' '~'
 
+%%
 program : '{' definition '}'
 
 parameter : name
@@ -26,16 +28,14 @@ parameter_list  : parameter
                 |
                 ;
 
-definition : name '[' literal ']' ival ';'
-           | name '[' ']' ival ';'
-           | name '[' literal ']' ival ';'
-           | name '[' ']' ival ';'
-           | name '[' literal ']' ';'
-           | name '[' ']' ';'
-           | name ival ';'
-           | name ';'
-           | name '(' parameter_list ')' statement
-           ;
+definition  : name ';'
+            | name ival ';'
+            | name '[' ']' ';'
+            | name '[' literal ']' ';'
+            | name '[' ']' ival ';'
+            | name '[' literal ']' ival ';'
+            | name '(' parameter_list ')' statement
+            ;
 
 definition_list : definition
                 | definition ',' definition_list;
@@ -112,21 +112,27 @@ else_aux  : ELSE statement
           | %prec ifx
           ;
 
-statement_aux : name '[' literal ']'
+statement_aux : name 
               | name '[' ']' 
-              | name
+              | name '[' literal ']'
               ;
 
-literal : '-' INTEGER
-        | '-' INTEGER_L
-        | INTEGER
+literal : INTEGER
         | INTEGER_L
-        | '\'' CHAR CHAR CHAR CHAR '\''
-        | '\'' CHAR CHAR CHAR '\''
-        | '\'' CHAR CHAR '\''
-        | '\'' CHAR '\''
-        | '"' STRING_L '"'
+        | '-' INTEGER
+        | '-' INTEGER_L
+        | CHAR
+        | STRING_L
         ;
 
 statement_list  : statement_aux  
                 | statement_aux ',' statement_list;
+
+%%
+
+char **yynames =
+#if YYDEBUG > 0
+                 (char**)yyname;
+#else
+                 0;
+#endif
