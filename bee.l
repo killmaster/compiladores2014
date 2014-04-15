@@ -34,7 +34,7 @@ int nesting=0;
 ">="  return GE;
 "<"  return '<';
 ">"  return '>';
-"<>"  return DIFF;
+"!="  return NEQ;
 "++"  return INC;
 "--"  return DEC;
 "!"  return '!';
@@ -52,6 +52,8 @@ int nesting=0;
 ","  return ',';
 "?"  retunr '?';
 ":"  retunr ':';
+"<<" return LSHIFT;
+">>" return RSHIFT;
 
 
 [1-9][0-9]* { yylval.i = strtol(yytext, 0, 10);
@@ -69,6 +71,9 @@ int nesting=0;
       return INTEGER_L;} /*octal*/
 
 \"([^"]|\\.)*\"   {yytext[yyleng-1] = 0; yylval.s = strdup(yytext+1);return STRING_L;}
+
+\'([^"]|\\.)*\'   {yytext[yyleng-1] = 0; yylval.s = strdup(yytext+1);return STRING_L;}
+
 
 "/*"  BEGIN com_ext;nesting++;
 <com_ext>"/*" {nesting++;}

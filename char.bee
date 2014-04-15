@@ -1,0 +1,49 @@
+char(vec,pos){
+    auto i;
+    extrn strlen();
+    i = strlen(vec);
+    if ( pos < i ){
+        return (vec[pos]);
+    else return -2;
+}
+
+lchar(vec,pos,val){
+    auto i;
+    extrn strlen();
+    i = strlen(vec);
+    if ( pos < i ){
+        vec[pos] = val;   
+    }
+    return (val);
+}
+
+putchar(val){
+    auto i, c;
+    i = 0;
+    extrn char();
+    while (c = char(val,i++) != '00'){
+        switch ( c ){
+            case '*n':
+                println();
+                break;
+            case '*(':
+                prints("{");
+                break;
+            case '*)':
+                prints("}");
+                break;
+            case '**':
+                prints("*");
+                break;
+            case '*"':
+                prints('"');
+                break;
+            case '*'':
+                prints("'");
+                break;
+            default:
+                prints(char(vec,i));
+        }
+    }
+    return (i);
+}

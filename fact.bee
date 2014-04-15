@@ -1,0 +1,13 @@
+main (argv, argc){
+    auto fac;
+    extrn factorial(), printi();
+    if( argc < 2 )
+        fac = argv[2];
+    else
+        fac = 5;
+    if ( fac > 0 )
+        printi(factorial(fac));
+    else
+        return (2);
+    return (0);
+}

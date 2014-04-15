@@ -1,0 +1,6 @@
+factorial(fac){
+    if(fac == 0)
+        return (1);
+    else {
+        return (fac * (factorial(fac -1)));  
+    }
